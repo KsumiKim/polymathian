@@ -1,0 +1,103 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Checkbox">
+            <template #left>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <p>기본</p>
+                            <ts-checkbox inline :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                            <ts-checkbox inline></ts-checkbox>
+                            <ts-checkbox inline></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <ts-checkbox ref="focusTarget" label="바나나"></ts-checkbox>
+                            <ts-checkbox label="사과" :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                            <ts-checkbox label="멜론"></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <p>인라인</p>
+                            <ts-checkbox inline></ts-checkbox>
+                            <ts-checkbox inline></ts-checkbox>
+                            <ts-checkbox inline :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <ts-checkbox label="당근" inline :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                            <ts-checkbox label="옥수수" inline></ts-checkbox>
+                            <ts-checkbox label="피망" inline></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <p>스위치 인라인</p>
+                            <ts-checkbox switch inline></ts-checkbox>
+                            <ts-checkbox switch inline></ts-checkbox>
+                            <ts-checkbox switch inline :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <ts-checkbox switch label="당근" inline :disabled="baseCheckbox.isDisabled"></ts-checkbox>
+                            <ts-checkbox switch label="옥수수" inline></ts-checkbox>
+                            <ts-checkbox autofocus switch label="피망" inline></ts-checkbox>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-btn color="info" @click="baseCheckbox.isDisabled = !baseCheckbox.isDisabled">enable/disable</ts-btn>
+                        </div>
+                        <div class="p-1">
+                            <ts-btn color="warning" @click="$refs.focusTarget.focus()">focus</ts-btn>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <p>단일 값 선택</p>
+                            <pre>value: {{ singleCheckbox.value }}</pre>
+                            <ts-checkbox label="승인" true-value="Y" false-value="N" v-model="singleCheckbox.value"></ts-checkbox>
+                        </div>
+                        <div class="p-1">
+                            <p>다중 값 선택</p>
+                            <pre>value: {{ multipleCheckbox.value }}</pre>
+                            <ts-checkbox inline multiple :label="f.name" :value="f.value"
+                                v-model="multipleCheckbox.value"
+                                v-for="f in fruitList" :key="f.value">
+                            </ts-checkbox>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+                <doc-sentence nested title="Events">
+                    <doc-sentence nested md title="blur(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스를 벗어나면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="focus(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="change(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="any">model 값이 갱신되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+                <doc-sentence nested title="Methods">
+                    <doc-sentence nested md title="focus()">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase type="N/A">포커스를 강제로 발생시킵니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

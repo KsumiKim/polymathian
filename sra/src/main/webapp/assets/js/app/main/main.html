@@ -1,0 +1,51 @@
+<div class="wrap w100 h100">
+    <ts-overlay :value="loading"></ts-overlay>
+    <notifications group="global" width="400px" position="bottom right" :speed="350">
+        <template #body="props">
+            <ts-notify :params="props"></ts-notify>
+        </template>
+    </notifications>
+    <ts-layout column>
+        <div class="header_top_wrap flex-grow-0">
+            <div class="header_top">
+                <ul class="myinfo">
+                    <li class="info">WELCOME, &nbsp;<span>{{ session.userName }}</span></li>
+                    <li><a href="/logout" class="btn-logout">Sign Out</a></li>
+                    <li style="color: black"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="header_nav_wrap flex-grow-0">
+            <div class="header_nav">
+                <div class="logo_area"><span class="title" @click="isShowMenu = true">POLYMATHIAN</span></div>
+            </div>
+            <div class="nav_menu_backdrop_wrap" v-show="isShowMenu">
+                <div class="nav_menu_wrap">
+                    <div class="nav_menu_area">
+                        <div class="title">
+                        </div>
+                        <ul class="nav_menu">
+                            <li v-for="m1 in menuList" :key="m1.id">
+                                <h2 class="title">{{ m1.name }}</h2>
+                                <ul>
+                                    <li v-for="m2 in m1.children" :key="m2.id" @click.stop="openMenu( m2 )">
+                                        <a :title="m2.name">{{ m2.name }}</a>
+                                        <ul>
+                                            <li v-for="m3 in m2.children" :key="m3.id">
+                                                <a href="#" :title="m3.name" @click.stop.prevent="openMenu( m3 )">{{ m3.name }}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nav_menu_backdrop" @click="isShowMenu=!isShowMenu"></div>
+            </div>
+        </div>
+        <div class="contents_wrap flex-grow-1">
+            <ts-mdi></ts-mdi>
+        </div>
+    </ts-layout>
+</div>

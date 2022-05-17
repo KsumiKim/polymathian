@@ -1,0 +1,16 @@
+<section class="ts-content-modal">
+    <ts-layout column class="ts-content-modal-layout">
+        <div class="ts-content-modal-top-bar flex-grow-0">
+            <ts-layout class="justify-content-between vue-js-modal-draggable">
+                <div class="ts-content-modal-title">
+                    <span class="align-middle">{{ title }}</span>
+                </div>
+                <div class="ts-content-modal-action">
+                    <span class="material-icons align-middle user-select-none" @mousedown.stop @click="close">close</span>
+                </div>
+            </ts-layout>
+        </div>
+        <div class="ts-content-modal-header flex-grow-0"><slot name="header"></slot></div>
+        <div class="ts-content-modal-body flex-grow-1"><slot name="body"></slot></div>
+    </ts-layout>
+</section>

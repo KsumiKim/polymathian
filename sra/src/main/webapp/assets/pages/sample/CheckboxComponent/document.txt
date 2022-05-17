@@ -1,0 +1,10 @@
+inline	boolean	false	컴포넌트를 직렬로 정렬합니다.
+switch	boolean	false	컴포넌트를 스위치 모양으로 만듭니다.
+autofocus	boolean	false	컴포넌트가 생성이 완료된 후, 포커스 강제로 적용합니다.
+tabindex	string | number	undefined	탭 이동 순서를 지정합니다.
+disabled	boolean	false	선택 및 타겟팅 기능을 제거합니다.
+label	string	undefined	라벨을 지정합니다.
+value	any	null	컴포넌트의 값을 지정합니다.
+multiple	boolean	false	model 값이 배열이면 value 속성에 지정된 값을 수집합니다. true-value, false-value 속성은 무시합니다.
+true-value	any	true	체크 시 model 값으로 갱신될 값을 지정합니다.
+false-value	any	false	체크해제 시 model 값으로 갱신될 값을 지정합니다.

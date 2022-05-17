@@ -1,0 +1,2 @@
+value	LocalDateTime | LocalDate	undefined	모델 값
+range	boolean	false	달력의 동작을 from ~ to 형식으로 전환 합니다. 'value' 가 [ from, to ] 배열로 지정되어야 합니다.

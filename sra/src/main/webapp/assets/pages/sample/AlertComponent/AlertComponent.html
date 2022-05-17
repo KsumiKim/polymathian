@@ -1,0 +1,30 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Alert">
+            <template #left>
+                <div class="row">
+                    <ts-alert primary text="이게 우선순위" @click:icon="onClickAlertBtn" @click="onClickAlert">
+                        여기있는 문자는 무시됨
+                    </ts-alert>
+                    <ts-alert warning @click:icon="onClickAlertBtn">
+                        디폴트
+                    </ts-alert>
+                    <ts-alert danger @click="onClickAlert">
+                        <template #header>
+                            <h1>헤더</h1>
+                        </template>
+                        <template #body>
+                            바디가 갖춘 형식
+                        </template>
+                    </ts-alert>
+                </div>
+            </template>
+            <template #right>
+                <h2>&lt;ts-alert&gt;</h2>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

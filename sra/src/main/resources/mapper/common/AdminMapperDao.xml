@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.common.service.dao.AdminMapperDao">
+    <resultMap id="selectMenuList_buttons_result" type="sra.common.model.ButtonVo">
+        <id     column="button_id" property="id"   jdbcType="VARCHAR" javaType="String"/>
+        <result column="button_nm" property="name" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+    <resultMap id="selectMenuList_result" type="sra.common.model.MenuVo">
+        <id     column="menu_seq"       property="id"         jdbcType="NUMERIC" javaType="Integer"/>
+        <result column="upper_menu_seq" property="parentId"   jdbcType="NUMERIC" javaType="Integer"/>
+        <result column="menu_nm"        property="name"       jdbcType="VARCHAR" javaType="String"/>
+        <result column="depth"          property="depth"      jdbcType="NUMERIC" javaType="Integer"/>
+        <result column="navigation"     property="navigation" jdbcType="VARCHAR" javaType="String"/>
+        <result column="program_path"   property="src"        jdbcType="VARCHAR" javaType="String"/>
+        <collection property="buttons" resultMap="selectMenuList_buttons_result"/>
+    </resultMap>
+    <select id="selectMenuList" resultMap="selectMenuList_result">
+        /* sra.common.service.dao.AdminMapperDao.selectMenuList */
+        WITH RECURSIVE cte AS
+        (
+        SELECT
+        MENU_SEQ AS hierarchy
+        , MENU_SEQ
+        , UPPER_MENU_SEQ
+        , PROGRAM_SEQ
+        , MENU_NM
+        , MENU_DESC
+        , MENU_DEPTH
+        , SORT_NUM
+        , USE_YN
+        FROM SY_MENU_MST
+        WHERE UPPER_MENU_SEQ IS NULL
+        UNION
+        SELECT
+        cte.HIERARCHY
+        , B.MENU_SEQ
+        , B.UPPER_MENU_SEQ
+        , B.PROGRAM_SEQ
+        , B.MENU_NM
+        , B.MENU_DESC
+        , B.MENU_DEPTH
+        , B.SORT_NUM
+        , B.USE_YN
+        FROM SY_MENU_MST B
+        JOIN cte AS cte
+        ON B.UPPER_MENU_SEQ = cte.MENU_SEQ
+        WHERE B.USE_YN = 'Y'
+        ),
+        v_menu AS (
+        SELECT
+        HIERARCHY
+        , MENU_SEQ
+        , UPPER_MENU_SEQ
+        , PROGRAM_SEQ
+        , MENU_NM
+        , MENU_DESC
+        , MENU_DEPTH
+        , SORT_NUM
+        , USE_YN
+        FROM cte
+        ORDER BY HIERARCHY, menu_seq
+        ),
+        v_program AS
+        (
+        SELECT
+        a.PROGRAM_SEQ ,
+        a.program_nm,
+        a.program_path,
+        a.auth_system,
+        a.AUTH_USER ,
+        b.BUTTON_ID,
+        b.BUTTON_NM
+        FROM SY_PROGRAM_MST a
+            LEFT JOIN SY_PROGRAM_BUTTON b
+            ON a.PROGRAM_SEQ = b.PROGRAM_SEQ
+        WHERE a.USE_YN = 'Y'
+        )
+        SELECT
+        a.HIERARCHY,
+        a.menu_seq,
+        a.UPPER_MENU_SEQ,
+        a.menu_nm,
+        a.menu_depth AS depth,
+        a.menu_nm AS navigation,
+        b.program_seq,
+        b.program_path,
+        b.button_id,
+        b.button_nm
+        FROM v_menu a
+            LEFT JOIN v_program b
+            ON a.program_seq = b.program_seq
+        ORDER BY 1, 2
+    </select>
+
+    <select id="findByUserId" parameterType="java.lang.String" resultType="sra.common.model.AdminVo">
+        /* sra.common.service.dao.AdminMapperDao.findByUserId */
+      SELECT  user_id
+            , user_name
+            , user_password as password
+            , user_auth
+            , thumbnail
+        FROM SY_USERINFO_MST
+       WHERE user_id = #{userId}
+    </select>
+
+    <insert id="signup" parameterType="sra.common.model.AdminVo">
+        /* sra.common.service.dao.AdminMapperDao.signup */
+        INSERT INTO SY_USERINFO_MST
+        ( user_id
+         , user_name
+         , user_password
+         , thumbnail
+         , use_yn )
+         VALUES
+        ( #{userId}
+          , #{userName}
+          , #{password}
+          , #{thumbnail}
+          , 'Y' )
+    </insert>
+</mapper>

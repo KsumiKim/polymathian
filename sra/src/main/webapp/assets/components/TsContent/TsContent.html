@@ -1,0 +1,15 @@
+<section class="ts-content">
+    <ts-layout column>
+        <div class="flex-grow-0" v-if="hasButtons">
+            <div class="title_area d-flex flex-row-reverse">
+                <div>
+                    <ts-layout ma v-if="menu.name !== 'HOME'">
+                        <ts-btn sm width="70" :color="getButtonColor(button)" v-for="button in buttons" :key="button.id" @click="action( button.id )">{{ button.name }}</ts-btn>
+                    </ts-layout>
+                </div>
+            </div>
+        </div>
+        <div class="ts-content-header flex-grow-0" v-if="hasHeader"><slot name="header"></slot></div>
+        <div class="ts-content-body flex-grow-1" v-if="hasBody"><slot name="body"></slot></div>
+    </ts-layout>
+</section>

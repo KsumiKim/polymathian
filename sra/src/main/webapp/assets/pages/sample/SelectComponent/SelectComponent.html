@@ -1,0 +1,153 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Select">
+            <template #left>
+                <div class="row">
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-select lg ref="focusTarget" :items="sizeList" :value="'lg'"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select :items="sizeList" :value="'md'" :disabled="baseSelect.isDisabled"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select sm :items="sizeList" :value="'sm'"></ts-select>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-select nullable color="primary"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="secondary"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="success"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="danger"></ts-select>
+                        </div>
+                    </ts-layout>
+                    <div class="m-1"></div>
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-select nullable color="warning"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="info"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="dark"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select nullable color="light"></ts-select>
+                        </div>
+                    </ts-layout>
+                    <div class="m-1"></div>
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="primary"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="secondary"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="success"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="danger"></ts-select>
+                        </div>
+                    </ts-layout>
+                    <div class="m-1"></div>
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="warning"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="info"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="dark"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <ts-select outlined nullable color="light"></ts-select>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-btn color="info" @click="baseSelect.isDisabled = !baseSelect.isDisabled">enable/disable</ts-btn>
+                        </div>
+                        <div class="p-1">
+                            <ts-btn color="warning" @click="$refs.focusTarget.focus()">focus</ts-btn>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <p>단일 값 선택</p>
+                            <pre>value: {{ singleSelect1.value }}</pre>
+                            <ts-select :items="fruitList" v-model="singleSelect1.value"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <p>단일 값 선택(객체)</p>
+                            <pre>value: {{ singleSelect2.value }}</pre>
+                            <ts-select return-object :items="fruitList" v-model="singleSelect2.value"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <p>다중 값 선택</p>
+                            <pre>value: {{ multipleSelect1.value }}</pre>
+                            <ts-select multiple :items="vegetableList" item-text="nm" item-value="val" v-model="multipleSelect1.value"></ts-select>
+                        </div>
+                        <div class="p-1">
+                            <p>다중 값 선택(객체)</p>
+                            <pre>value: {{ multipleSelect2.value }}</pre>
+                            <ts-select multiple return-object :items="vegetableList" item-text="nm" item-value="val" v-model="multipleSelect2.value"></ts-select>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+                <doc-sentence nested title="Events">
+                    <doc-sentence nested md title="blur(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스를 벗어나면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="focus(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="change(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">선택된 아이템이 변경되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="input(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">model 값이 갱신되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+                <doc-sentence nested title="Methods">
+                    <doc-sentence nested md title="focus()">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase type="N/A">포커스를 강제로 발생시킵니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

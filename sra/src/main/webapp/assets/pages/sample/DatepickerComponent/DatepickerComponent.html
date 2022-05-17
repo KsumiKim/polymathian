@@ -1,0 +1,56 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Datepicker">
+            <template #left>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <p>값 선택</p>
+                            <pre>value: {{ datepicker1.value }}</pre>
+                            <ts-datepicker v-model="datepicker1.value"></ts-datepicker>
+                        </div>
+                        <div class="p-1">
+                            <p>다중 값 선택</p>
+                            <pre>value: {{ datepicker2.value }}</pre>
+                            <ts-datepicker range v-model="datepicker2.value"></ts-datepicker>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+                <doc-sentence nested title="Events">
+                    <doc-sentence nested md title="blur(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스를 벗어나면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="focus(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="change(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">선택된 아이템이 변경되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="input(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">model 값이 갱신되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+                <doc-sentence nested title="Methods">
+                    <doc-sentence nested md title="focus()">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase type="N/A">포커스를 강제로 발생시킵니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

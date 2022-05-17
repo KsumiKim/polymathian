@@ -1,0 +1,30 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Grid">
+            <template #left>
+                <div class="row" :style="gridHeight">
+                    <ts-layout column>
+                        <div class="flex-grow-1">
+                            <ts-box>
+                                <template #left>
+                                    <ts-title>그리드</ts-title>
+                                </template>
+                                <template #right>
+                                    <ts-btn sm @click="insertRows">데이터 추가</ts-btn>
+                                </template>
+                                <template #body>
+                                    <ts-grid ref="grid1" :columns="grid1.columns" :fields="grid1.columns" v-model="grid1.rows"></ts-grid>
+                                </template>
+                            </ts-box>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <doc-sentence title="Props">
+                    <!-- <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase> -->
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

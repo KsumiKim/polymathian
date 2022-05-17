@@ -1,0 +1,50 @@
+<ts-content v-bind="$props">
+    <template #header>
+        <ts-form :size="3">
+            <ts-fieldset label="category" >
+                <ts-text sm v-model="param.articleCd" @keyup.enter="search"></ts-text>
+            </ts-fieldset>
+            <ts-fieldset label="title">
+                <ts-text sm v-model="param.title" @keyup.enter="search"></ts-text>
+            </ts-fieldset>
+            <ts-fieldset label="writer" >
+                <ts-text sm v-model="param.writer" @keyup.enter="search"></ts-text>
+            </ts-fieldset>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout>
+            <splitpanes>
+                <pane size="40">
+                    <ts-box title="Posts" :subtitle="grid1Subtitle">
+                        <template #right>
+                        </template>
+                        <template #body>
+                            <ts-layout column>
+                                <div class="flex-grow-1">
+                                    <ts-grid ref="grid1" :header-height="50" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows"></ts-grid>
+                                </div>
+                                <div class="flex-grow-0">
+                                    <ts-pagination :pageInfo="pageInfo" v-model="page" @change="search"></ts-pagination>
+                                </div>
+                            </ts-layout>
+                        </template>
+                    </ts-box>
+                </pane>
+                <pane size="60">
+                    <ts-box :title="selectedArticle.title" class="position-relative">
+                        <template #right>
+                        </template>
+                        <template #body>
+                            <ts-layout column noHeight>
+                                <div class="chat-messages p-4" style="height: 460px">
+                                    <span v-html="selectedArticle.content"></span>
+                                </div>
+                            </ts-layout>
+                        </template>
+                    </ts-box>
+                </pane>
+            </splitpanes>
+        </ts-layout>
+    </template>
+</ts-content>

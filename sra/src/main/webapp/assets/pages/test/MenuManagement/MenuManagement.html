@@ -1,0 +1,155 @@
+<ts-content v-bind="$props" :button-color="{ search: 'secondary', save: 'danger', print: 'warning' }">
+    <template #header>
+        <ts-form :size="3">
+            <ts-fieldset label="메뉴명">
+                <ts-text sm v-model="param.name"></ts-text>
+            </ts-fieldset>
+            <ts-fieldset label="라디오박스">
+                <ts-radio-group>
+                    <ts-radio label="하나" inline></ts-radio>
+                    <ts-radio label="두이" inline></ts-radio>
+                    <ts-radio label="서이" inline></ts-radio>
+                </ts-radio-group>
+            </ts-fieldset>
+            <ts-fieldset label="셀렉트박스">
+                <ts-select sm block></ts-select>
+            </ts-fieldset>
+            <ts-fieldset label="달력박스">
+                <ts-datepicker sm></ts-datepicker>
+            </ts-fieldset>
+            <ts-fieldset label="체크박스">
+                <ts-checkbox label="하나" inline></ts-checkbox>
+                <ts-checkbox label="두이" inline></ts-checkbox>
+                <ts-checkbox label="서이" inline></ts-checkbox>
+            </ts-fieldset>
+            <ts-fieldset label="텍스트박스">
+                <ts-text sm v-model="param.name"></ts-text>
+            </ts-fieldset>
+            <ts-fieldset label="요청1">
+                <ts-layout pa>
+                    <ts-text sm class="col-3"></ts-text>
+                    <ts-select sm class="col-6" block></ts-select>
+                    <ts-text sm class="col-3"></ts-text>
+                </ts-layout>
+            </ts-fieldset>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout column>
+            <div class="flex-grow-0">
+                <ts-box static title="요청2">
+                    <template #body>
+                        <div class="table_type2">
+                            <table summary="table">
+                                <colgroup>
+                                <col width="20%">
+                                <col width="30%">
+                                <col width="20%">
+                                <col width="*">
+                                </colgroup>
+                                <tbody class="text-truncate">
+                                    <tr>
+                                        <th>용도구분</th>
+                                        <td></td>
+                                        <th class="ico">사건여부</th>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </ts-box>
+            </div>
+            <div class="flex-grow-1">
+                <splitpanes>
+                    <pane size="50">
+                        <ts-tabs v-model="tabValue">
+                            <div>test</div>
+                            <ts-tab value="A">첫탭</ts-tab>
+                            <ts-tab value="B">둘탭</ts-tab>
+                            <ts-tab-item value="A">
+                                <ts-box title="첫번째 탭의 박스">
+                                    <template #body>
+                                        <div class="table_type2">
+                                            <table summary="table">
+                                                <colgroup>
+                                                <col width="20%">
+                                                <col width="30%">
+                                                <col width="20%">
+                                                <col width="*">
+                                                </colgroup>
+                                                <tbody class="text-truncate">
+                                                    <tr>
+                                                        <th class="ico">영장구분</th>
+                                                        <td colspan="3"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>용도구분</th>
+                                                        <td></td>
+                                                        <th class="ico">사건여부</th>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>진행번호</th>
+                                                        <td></td>
+                                                        <th>재청구 여부</th>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>차장검사</th>
+                                                        <td colspan="3"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </template>
+                                </ts-box>
+                            </ts-tab-item>
+                            <ts-tab-item value="B">
+                                <ts-box title="두번째 탭의 박스" subtitle="999">
+                                    <template #right>
+                                        <ts-btn sm @click="정말로링크가동작하는지테스트해본다()">링크!</ts-btn>
+                                        <ts-btn sm @click="openModal">오픈 모달</ts-btn>
+                                    </template>
+                                    <template #body>
+                                        <ts-editor v-model="hyperText"></ts-editor>
+                                    </template>
+                                </ts-box>
+                            </ts-tab-item>
+                        </ts-tabs>
+                    </pane>
+                    <pane size="50">
+                        <splitpanes horizontal>
+                            <pane size="50">
+                                <ts-box title="나의 타이틀">
+                                    <template #right>
+                                        <ts-btn sm>나의 버튼</ts-btn>
+                                    </template>
+                                    <template #body>
+                                        <ts-layout column>
+                                            <div class="flex-grow-1">
+                                                <ts-grid ref="grid1" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows"></ts-grid>
+                                            </div>
+                                            <div class="flex-grow-0">
+                                                <ts-pagination :pages="pageInfo.pages" :navigatepageNums="pageInfo.navigatepageNums" v-model="page" @change="search"></ts-pagination>
+                                            </div>
+                                        </ts-layout>
+                                    </template>
+                                </ts-box>
+                            </pane>
+                            <pane size="50">
+                                <ts-box>
+                                    <template #left><ts-datepicker sm></ts-datepicker></template>
+                                    <template #right><ts-datepicker sm></ts-datepicker></template>
+                                    <template #body>
+                                        <ts-grid></ts-grid>
+                                    </template>
+                                </ts-box>
+                            </pane>
+                        </splitpanes>
+                    </pane>
+                </splitpanes>
+            </div>
+        </ts-layout>
+    </template>
+</ts-content>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="logPath">${user.home}/desktop</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="file">
+            <FileName>${logPath}/application.log</FileName>
+            <FilePattern>${logPath}/application.%d{yyyy-MM-dd}.%i.log</FilePattern>
+            <PatternLayout>
+                <Pattern>%-5level %d{'yyyy-MM-dd'T'hh:mm:ss'} [%logger.%method:%line] %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10" findIndex="min"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- org.springframework -->
+        <Logger name="org.springframework" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.core" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.context" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.beans" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.jndi" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.security" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.jdbc" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.aop" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.springframework.test" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- org.apache -->
+        <Logger name="org.apache.commons" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.apache.ibatis" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- org.mybatis -->
+        <Logger name="org.mybatis.spring" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.mybatis.spring.mapper" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- log4jdbc -->
+        <Logger name="log4jdbc" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- jdbc -->
+        <Logger name="jdbc" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="jdbc.sqlonly" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- egovframework -->
+        <Logger name="egovframework" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- springfox -->
+        <Logger name="springfox" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <!-- root -->
+        <Root level="error">
+            <AppenderRef ref="file"/>
+        </Root>
+    </Loggers>
+</Configuration>

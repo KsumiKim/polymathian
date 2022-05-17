@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.board.service.dao.BoardMapperDao">
+
+    <select id="selectArticleList" parameterType="sra.board.model.BoardParamVo" resultType="sra.board.model.ArticleVo">
+        /* sra.board.service.dao.BoardMapperDao.selectArticleList */
+        SELECT
+            D.BOARD_ID
+            , D.ARTICLE_ID
+            , CASE ARTICLE_CD
+                WHEN '0001'
+                THEN 'DATA MIGRATION'
+                ELSE NULL
+              END AS ARTICLE_CD
+            , D.TITLE
+            , D.CONTENT
+            , D.USE_YN
+            , D.INSERT_DT
+            , ( SELECT USER_NAME
+                FROM SY_USERINFO_MST
+                WHERE USER_ID = D.INSERT_ID ) AS INSERT_NM
+        FROM SY_BOARD_DTL D
+        WHERE D.BOARD_ID = 1 /* 포트폴리오 게시판 */
+        <if test=' articleCd != null and articleCd != "" '>
+        AND D.ARTICLE_CD = #{articleCd}
+        </if>
+        <if test=' title != null and title != "" '>
+        AND D.TITLE LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test=' writer != null and writer != "" '>
+        AND D.INSERT_ID = ( SELECT USER_ID
+                          FROM SY_USERINFO_MST
+                          WHERE USER_NAME = #{writer} )
+        </if>
+    </select>
+
+    <select id="selectArticle" resultType="sra.board.model.ArticleVo">
+        /* sra.board.service.dao.BoardMapperDao.selectArticle */
+        SELECT
+            TITLE
+            , CONTENT
+        FROM SY_BOARD_DTL
+        WHERE BOARD_ID = 1              /* 포트폴리오 게시판 */
+        AND ARTICLE_ID = #{articleId}
+    </select>
+
+    <update id="updateArticle" parameterType="sra.board.model.ArticleVo">
+        UPDATE SY_BOARD_DTL
+        SET CONTENT = #{content}
+        WHERE BOARD_ID = 1              /* 포트폴리오 게시판 */
+        AND ARTICLE_ID = #{articleId}
+    </update>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:websocket="http://www.springframework.org/schema/websocket"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">
+
+    <websocket:message-broker application-destination-prefix="/app" user-destination-prefix="/user">
+        <websocket:stomp-endpoint path="/polymathian/ws, /polymathian/ws/" allowed-origins="*"/>
+        <!-- <websocket:simple-broker prefix="/topic, /queue"/> -->
+        <websocket:stomp-broker-relay prefix="/topic, /queue"
+            relay-host="192.168.0.3"
+            relay-port="61613"
+            client-login="admin"
+            client-passcode="admin"
+            system-login="admin"
+            system-passcode="admin"
+            heartbeat-send-interval="100000"
+            heartbeat-receive-interval="100000"/>
+    </websocket:message-broker>
+
+    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="65536000"/>
+        <property name="maxBinaryMessageBufferSize" value="65536000"/>
+    </bean>
+
+</beans>

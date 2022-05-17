@@ -1,0 +1,34 @@
+<ts-content-modal v-bind="$props" title="내가 임의로 지정한 타이틀">
+    <template #header>
+        <ts-form :size="2">
+            <ts-fieldset label="너이글자">
+                <ts-text sm></ts-text>
+            </ts-fieldset>
+            <ts-fieldset label="세글자">
+                <ts-select sm outlined block multiple
+                    :items="MY_AUTH_CD"
+                    item-text="detailNm"
+                    item-value="detailCd"
+                    v-model="selectValues">
+                </ts-select>
+            </ts-fieldset>
+            <ts-fieldset label="세글자">
+                <ts-datepicker sm></ts-datepicker>
+            </ts-fieldset>
+            <ts-fieldset label="너이글자">
+                <ts-text sm></ts-text>
+            </ts-fieldset>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout>
+            <div class="flex-grow-1">
+                <ts-box>
+                    <template #body>
+                        <ts-grid></ts-grid>
+                    </template>
+                </ts-box>
+            </div>
+        </ts-layout>
+    </template>
+</ts-content-modal>

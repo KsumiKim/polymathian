@@ -1,0 +1,30 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Box">
+            <template #left>
+                <div class="row" :style="styles">
+                    <ts-box>
+                        <template #left>
+                            타이틀
+                        </template>
+                        <template #right>
+                            <ts-layout ma>
+                                <ts-text sm></ts-text>
+                                <ts-btn sm>버튼</ts-btn>
+                            </ts-layout>
+                        </template>
+                        <template #body>
+                            <div class="w100 h100" style="background-color: black;"></div>
+                        </template>
+                    </ts-box>
+                </div>
+            </template>
+            <template #right>
+                <h2>&lt;ts-box&gt;</h2>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

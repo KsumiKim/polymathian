@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<Configuration>
+    <Properties>
+        <Property name="logPath">C:/application-log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5level %date{'yyyy-MM-dd'T'hh:mm:ss'} [%logger.%method:%line] %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- org.springframework -->
+        <Logger name="org.springframework" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.core" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.context" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.beans" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.jndi" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.security" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.jdbc" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.aop" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.test" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- org.apache -->
+        <Logger name="org.apache.commons" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.apache.ibatis" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- org.mybatis -->
+        <Logger name="org.mybatis.spring" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.mybatis.spring.mapper" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- log4jdbc -->
+        <Logger name="log4jdbc" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- jdbc -->
+        <Logger name="jdbc" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="jdbc.sqlonly" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- egovframework -->
+        <Logger name="egovframework" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- root -->
+        <Root level="debug">
+            <AppenderRef ref="trace"/>
+        </Root>
+    </Loggers>
+</Configuration>

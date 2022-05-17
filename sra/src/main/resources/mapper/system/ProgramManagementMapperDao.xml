@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.system.service.dao.ProgramManagementMapperDao">
+
+    <select id="selectProgramList" resultType="sra.system.model.ProgramOutVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.selectProgramList */
+       SELECT program_seq
+             , program_nm
+             , program_path
+             , use_yn
+             , auth_system
+             , auth_user
+         FROM SY_PROGRAM_MST
+          <if test=' programNm != null and programNm != "" '>
+        WHERE program_nm LIKE '%' || #{programNm} || '%'
+          </if>
+    </select>
+
+    <delete id="deleteProgram" parameterType="sra.system.model.ProgramInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.deleteProgram */
+        DELETE
+          FROM SY_PROGRAM_MST
+         WHERE program_seq = #{programSeq}
+    </delete>
+
+    <update id="updateProgram" parameterType="sra.system.model.ProgramInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.updateProgram */
+     UPDATE SY_PROGRAM_MST
+        SET program_nm      = #{programNm}
+          , program_path    = #{programPath}
+          , use_yn          = #{useYn}
+          , auth_system     = #{authSystem}
+          , auth_user       = #{authUser}
+          , update_dt       = #{updateDt}
+          , update_id       = #{updateId}
+      WHERE program_seq = #{programSeq}
+    </update>
+
+    <insert id="insertProgram" parameterType="sra.system.model.ProgramInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.insertProgram */
+        INSERT INTO SY_PROGRAM_MST
+            (  program_nm
+             , program_path
+             , use_yn
+             , auth_system
+             , auth_user
+             , update_dt
+             , update_id
+             , insert_dt
+             , insert_id )
+        VALUES
+            (  #{programNm}
+             , #{programPath}
+             , #{useYn}
+             , #{authSystem}
+             , #{authBusiness}
+             , #{authProsecutor}
+             , #{authOfficer}
+             , #{updateDt}
+             , #{updateId}
+             , #{insertDt}
+             , #{insertId} )
+    </insert>
+
+    <select id="selectProgramButtonList" parameterType="sra.system.model.ProgramInVo" resultType="sra.system.model.ProgramButtonOutVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.selectProgramButtonList */
+        SELECT program_seq
+             , button_id
+             , button_nm
+             , use_yn
+             , auth_system
+             , auth_user
+         FROM SY_PROGRAM_BUTTON
+        WHERE program_seq = #{programSeq}
+    </select>
+
+    <select id="selectProgramButtonCnt" parameterType="sra.system.model.ProgramButtonInVo" resultType="java.lang.Integer">
+        /* sra.system.service.dao.ProgramManagementMapperDao.selectProgramButtonCnt */
+        SELECT COUNT(button_id)
+          FROM SY_PROGRAM_BUTTON
+         WHERE program_seq = #{programSeq}
+           AND button_id = #{buttonId}
+    </select>
+
+    <delete id="deleteProgramButton" parameterType="sra.system.model.ProgramButtonInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.deleteProgramButton */
+        DELETE
+          FROM SY_PROGRAM_BUTTON
+         WHERE program_seq = #{programSeq}
+           AND button_id = #{buttonId}
+    </delete>
+
+    <delete id="deleteButtonByProgram" parameterType="sra.system.model.ProgramButtonInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.deleteButtonByProgram */
+        DELETE
+          FROM SY_PROGRAM_BUTTON
+         WHERE program_seq = #{programSeq}
+    </delete>
+
+    <update id="updateProgramButton" parameterType="sra.system.model.ProgramButtonInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.updateProgramButton */
+     UPDATE SY_PROGRAM_BUTTON
+        SET button_nm               = #{buttonNm}
+          , use_yn                  = #{useYn}
+          , auth_system             = #{authSystem}
+          , auth_user               = #{authUser}
+          , update_dt               = #{updateDt}
+          , update_id               = #{updateId}
+      WHERE program_seq = #{programSeq}
+        AND button_id = #{buttonId}
+    </update>
+
+    <insert id="insertProgramButton" parameterType="sra.system.model.ProgramButtonInVo">
+        /* sra.system.service.dao.ProgramManagementMapperDao.insertProgramButton */
+        INSERT INTO SY_PROGRAM_BUTTON
+            (  program_seq
+             , button_id
+             , button_nm
+             , use_yn
+             , auth_system
+             , auth_user
+             , update_dt
+             , update_id
+             , insert_dt
+             , insert_id )
+        VALUES
+            (  #{programSeq}
+             , #{buttonId}
+             , #{buttonNm}
+             , #{useYn}
+             , #{authSystem}
+             , #{authUser}
+             , #{updateDt}
+             , #{updateId}
+             , #{insertDt}
+             , #{insertId}
+            )
+    </insert>
+
+</mapper>

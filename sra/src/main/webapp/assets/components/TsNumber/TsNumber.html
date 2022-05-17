@@ -1,0 +1,10 @@
+<div>
+    <ts-fieldset :label="label">
+        <ts-layout ma>
+            <ts-text sm v-model="internalYear" @change="onUpdateYear"></ts-text>
+            <div v-show="!items">{{ cd }}</div>
+            <ts-select sm block :items="items" v-model="internalCd" v-show="items"></ts-select>
+            <ts-text sm v-model="internalSeq" @change="onUpdateSeq"></ts-text>
+        </ts-layout>
+    </ts-fieldset>
+</div>

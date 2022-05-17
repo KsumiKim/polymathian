@@ -1,0 +1,26 @@
+<ts-content-modal v-bind="$props" title="죄명 선택">
+    <template #body>
+        <ts-layout>
+            <ts-box title="죄명">
+                <template #right>
+                    <ts-btn sm @click="insertGridRow">+</ts-btn>
+                    <ts-btn sm @click="deleteGridRow">-</ts-btn>
+                    <ts-btn sm @click="excelDownloadGrid">E</ts-btn>
+                </template>
+                <template #body>
+                    <ts-layout column>
+                        <div class="flex-grow-1">
+                            <ts-grid ref="grid1" :header-height="70" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows"></ts-grid>
+                        </div>
+                        <div class="flex-grow-0">
+                            <ts-layout ma class="justify-content-center">
+                                <!-- <ts-btn sm @click="close">취소</ts-btn> -->
+                                <ts-btn sm @click="save">확인</ts-btn>
+                            </ts-layout>
+                        </div>
+                    </ts-layout>
+                </template>
+            </ts-box>
+        </ts-layout>
+    </template>
+</ts-content-modal>

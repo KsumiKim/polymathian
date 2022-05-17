@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+    <security:http pattern="/*.ico" security="none"/>
+    <security:http pattern="/assets/**" security="none"/>
+    <security:http use-expressions="true" entry-point-ref="delegatingHandlerExceptionResolverAuthenticationEntryPoint">
+        <security:csrf disabled="true"/>
+        <security:intercept-url pattern="${spring.security.signup-page-url}" access="permitAll()"/>
+        <security:intercept-url pattern="${spring.security.login-page-url}" access="permitAll()"/>
+        <security:intercept-url pattern="${spring.security.filter-processes-url}" access="permitAll()"/>
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+        <security:form-login
+                login-page="${spring.security.login-page-url}"
+                default-target-url="${spring.security.default-target-url}"
+                authentication-failure-url="${spring.security.authentication-failure-url}"/>
+        <security:logout
+                logout-url="${spring.security.logout-url}"
+                success-handler-ref="redirectLogoutSuccessHandler"
+                invalidate-session="true"/>
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="formLoginFilter"/>
+    </security:http>
+
+    <bean id="delegatingHandlerExceptionResolverAuthenticationEntryPoint" class="core.web.security.handler.DelegatingHandlerExceptionResolverAuthenticationEntryPoint">
+        <constructor-arg type="java.lang.String" value="${spring.security.login-page-url}"/>
+        <constructor-arg ref="globalHandlerExceptionResolver"/>
+    </bean>
+
+    <!-- === Filter === -->
+    <bean id="formLoginFilter" class="org.springframework.web.filter.CompositeFilter">
+        <property name="filters">
+            <list>
+                <ref bean="permitAuthenticationProcessingFilter"/>
+                <ref bean="loginAuthenticationProcessingFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="permitAuthenticationProcessingFilter" class="core.web.security.filter.PermitAuthenticationProcessingFilter">
+        <constructor-arg type="java.lang.String" value="${spring.security.permit-processes-url}"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"/>
+        <property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"/>
+    </bean>
+
+    <bean id="loginAuthenticationProcessingFilter" class="core.web.security.filter.LoginAuthenticationProcessingFilter">
+        <constructor-arg type="java.lang.String" value="${spring.security.filter-processes-url}"/>
+        <property name="requestBodyProcessor" ref="requestResponseBodyProcessor"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"/>
+        <property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"/>
+    </bean>
+
+    <!-- === AuthenticationSuccessHandler === -->
+    <bean id="loginAuthenticationSuccessHandler" class="core.web.security.handler.LoginAuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="${spring.security.default-target-url}"/>
+        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+        <property name="responseBodyProcessor" ref="requestResponseBodyProcessor"/>
+        <property name="loginSuccessProceedHandler" ref="adminService"/>
+    </bean>
+
+    <!-- === AuthenticationFailureHandler === -->
+    <bean id="loginAuthenticationFailureHandler" class="core.web.security.handler.LoginAuthenticationFailureHandler">
+        <property name="delegateHandlerExceptionResolver" ref="globalHandlerExceptionResolver"/>
+    </bean>
+
+    <!-- === LogoutSuccessHandler === -->
+    <bean id="redirectLogoutSuccessHandler" class="core.web.security.handler.RedirectLogoutSuccessHandler">
+        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+        <property name="defaultTargetUrl" value="${spring.security.login-page-url}"/>
+        <property name="logoutSuccessProceedHandler" ref="adminService"/>
+    </bean>
+
+    <!-- === AuthenticationManager === -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="permitAutoLoginProvider"/>
+        <security:authentication-provider ref="loginUsernameAndPasswordProvider"/>
+    </security:authentication-manager>
+
+    <!-- === AuthenticationProvider === -->
+    <bean id="permitAutoLoginProvider" class="core.web.security.provider.PermitAutoLoginProvider">
+        <property name="userDetailsService" ref="adminService"/>
+    </bean>
+
+    <bean id="loginUsernameAndPasswordProvider" class="core.web.security.provider.LoginUsernameAndPasswordProvider">
+        <property name="userDetailsService" ref="adminService"/>
+        <property name="passwordEncoder" ref="sha512PasswordEncoder"/>
+        <property name="hideUserNotFoundExceptions" value="false"/>
+    </bean>
+
+</beans>

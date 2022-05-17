@@ -1,0 +1,112 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Layout">
+            <template #left>
+                <div class="row" :style="styles">
+                    <ts-layout>
+                        <div class="flex-grow-1">
+                            <bg color="red">50% x 100%</bg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <bg color="blue">50% x 100%</bg>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row" :style="styles">
+                    <ts-layout column>
+                        <div class="flex-grow-1">
+                            <bg color="red">100% x 50%</bg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <bg color="blue">100% x 50%</bg>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row" :style="styles">
+                    <ts-layout column>
+                        <div class="flex-grow-1">
+                            <ts-layout>
+                                <div class="flex-grow-1">
+                                    <bg color="green">50% x 50%</bg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <bg text-black color="yellow">50% x 50%</bg>
+                                </div>
+                            </ts-layout>
+                        </div>
+                        <div class="flex-grow-1">
+                            <bg color="blue">100% x 100%</bg>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row" :style="styles">
+                    <ts-layout column>
+                        <div class="flex-grow-1">
+                            <bg color="red">100% x 50%</bg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <ts-layout>
+                                <div class="flex-grow-1">
+                                    <bg color="green">50% x 50%</bg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <bg text-black color="yellow">50% x 50%</bg>
+                                </div>
+                            </ts-layout>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row" :style="styles">
+                    <ts-layout column>
+                        <div class="h40">
+                            <ts-layout>
+                                <div class="flex-grow-1">
+                                    <bg color="green">나머지/2 x 40%</bg>
+                                </div>
+                                <div class="flex-grow-0">
+                                    <ts-layout class="align-items-center p-1">
+                                        <ts-btn>버튼가로크기 x 중앙정렬</ts-btn>
+                                    </ts-layout>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <bg text-black color="yellow">나머지/2 x 40%</bg>
+                                </div>
+                            </ts-layout>
+                        </div>
+                        <div class="h60">
+                            <ts-layout>
+                                <div class="w35">
+                                    <bg color="red">35% x 60%</bg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <ts-layout column>
+                                        <div class="h25">
+                                            <bg text-black color="grey">65% x 25%</bg>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <bg text-black color="blue">65% x 나머지</bg>
+                                        </div>
+                                        <div class="h35">
+                                            <bg text-black color="grey">65% x 35%</bg>
+                                        </div>
+                                    </ts-layout>
+                                </div>
+                            </ts-layout>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <h2>&lt;ts-layout&gt;</h2>
+                <p>CSS3 에서 요소의 넓이와 높이를 유동적으로 조절할 수 있는 <code><a href="https://getbootstrap.com/docs/5.0/utilities/flex" target="_blank">flex(링크)</a></code> 기능을 사용합니다.</p>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

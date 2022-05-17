@@ -1,0 +1,12 @@
+<div class="notification-notify" :class="'notification-notify-' + params.item.type">
+    <div class="d-flex justify-content-between">
+        <div class="notification-notify-content">
+            <span class="notification-notify-title">{{ params.item.title }}</span>
+                <div class="notification-notify-text" v-for="( message, i ) in messages" :key="i">{{ message }}</div>
+            </div>
+            <div class="notification-notify-close-button">
+                <ts-btn color="white" icon="close" @click.stop="params.close"></ts-btn>
+            </div>
+        </div>
+    </div>
+</div>

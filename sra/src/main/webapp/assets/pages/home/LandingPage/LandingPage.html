@@ -1,0 +1,130 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <section class="home">
+            <header class="home-header">
+                <h1>Hi, Welcome to My <span class="typedText" ref="typedText"></span></h1>
+            </header>
+            <main class="home-body">
+                <div class="work-experience" ref="bodyContent">
+                    <section class="content">
+                        <div class="image_component">
+                            <img src="/assets/img/milestone-flag.png" alt="">
+                        </div>
+                        <div class="text_component">
+                            <h3>대검찰청 - 범죄피해재산 환부시스템</h3>
+                            <p>Role: Full-Stack Web Developer, Data Administrator<br/>
+                               Spring Framework, VueJs, Tibero, RealGridJs, OzReport</p>
+                        </div>
+                    </section>
+                    <section class="content from-right">
+                        <div class="image_component">
+                            <img src="/assets/img/milestone-flag.png" alt="">
+                        </div>
+                        <div class="text_component slide-in from-right">
+                            <h3>LGE - LGE.GO.KR Rollout KR </h3>
+                            <p>Role: DB Migration from on-premise to cloud<br/>
+                               TALEND, JAVA, AWS, Oracle, MariaDB, DB2</p>
+                        </div>
+                    </section>
+                    <!-- <section class="content from-left">
+                        <div class="image_component">
+                            <img src="/assets/img/milestone-flag.png" alt="">
+                        </div>
+                        <div class="text_component slide-in from-left">
+                            <h3>SDSA - CRM</h3>
+                            <p>Role: Campaign Developer, Email Delivery Assets Developer<br/>
+                               Adobe Campaign, JavaScript, CSS, HTML, PostgreSQL</p>
+                            <ts-btn sm color="secondary">See Details</ts-btn>
+                        </div>
+                    </section> -->
+                    <section class="content from-left">
+                        <div class="image_component">
+                            <img src="/assets/img/milestone-flag.png" alt="">
+                        </div>
+                        <div class="text_component slide-in from-left">
+                            <h3>LGE - LGE.GO.KR Rollout GP </h3>
+                            <p>Role: DB Migration from on-premise to cloud<br/>
+                               TALEND, JAVA, AWS, Oracle, MariaDB</p>
+                        </div>
+                    </section>
+                </div>
+            </main>
+            <main>
+                <h2 class="sub-header">SIDE PROJECTS</h2>
+                <div class="side-projects">
+                    <div class="chat-application">
+                        <h3>Chat Application</h3>
+                        <div class="content">
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>WebSocket</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>RabbitMQ</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>STMOP</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>Spring FW</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>VueJS</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>MariaDB</h4>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="socialmedia-application">
+                        <h3>QUEUETING</h3>
+                        <div class="content">
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>ReactJS</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>Redux</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>Firebase</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>Material UI</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>HTML</h4>
+                            </article>
+                            <article>
+                                <span class="material-icons">check</span>
+                                <h4>CSS</h4>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="contact">
+                <h2>Send Me an Email</h2>
+                <ts-text class="input" placeholder="Sender" v-model="param.from"></ts-text>
+                <ts-text class="input" placeholder="ksumikim@gmail.com" readonly></ts-text>
+                <ts-text class="input" placeholder="Title" v-model="title"></ts-text>
+                <ts-textarea class="input" placeholder="Content" rows="7" v-model="param.text"></ts-textarea>
+                <ts-file-list
+                    multiple
+                    accept="image/*,.pdf,.xlsx,.docx,.pptx"
+                    v-model="files">
+                </ts-file-list>
+                <ts-btn @click="sendMail">Send</ts-btn>
+            </footer>
+        </section>
+    </template>
+</ts-content>

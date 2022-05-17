@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    <bean id="requestResponseBodyProcessor" class="core.web.support.RequestResponseBodyProcessor">
+        <constructor-arg>
+            <ref bean="httpMessageConverters"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="httpMessageConverters" class="core.web.support.HttpMessageConverters">
+        <constructor-arg>
+            <array>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="writeAcceptCharset" value="false"/>
+                </bean>
+                <bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="objectMapper" ref="jsonObjectMapper"/>
+                </bean>
+            </array>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jsonObjectMapper" class="core.support.JsonObjectMapper"/>
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    <!-- === PasswordEncoder === -->
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <bean id="aria256PasswordEncoder" class="core.crypto.Aria256PasswordEncoder">
+        <constructor-arg ref="egovARIACryptoServiceImpl"/>
+        <property name="hashedPassword" value="egovframe"/>
+    </bean>
+
+    <bean id="sha512PasswordEncoder" class="core.crypto.Sha256PasswordEncoder">
+        <constructor-arg ref="sha512EgovPasswordEncoder"/>
+    </bean>
+
+    <!-- EgovARIACryptoService -->
+    <bean id="egovARIACryptoServiceImpl" class="egovframework.rte.fdl.cryptography.impl.EgovARIACryptoServiceImpl">
+        <property name="passwordEncoder" ref="sha256EgovPasswordEncoder"/>
+        <property name="blockSize" value="1025"/><!-- default : 1024 -->
+    </bean>
+
+    <!-- === EgovPasswordEncoder === -->
+    <bean id="sha512EgovPasswordEncoder" class="egovframework.rte.fdl.cryptography.EgovPasswordEncoder">
+        <property name="algorithm" value="SHA-512" />
+        <property name="hashedPassword" value="${crypto.hashed.password}"/>
+    </bean>
+
+    <bean id="sha256EgovPasswordEncoder" class="egovframework.rte.fdl.cryptography.EgovPasswordEncoder">
+        <property name="algorithm" value="SHA-256" />
+        <property name="hashedPassword" value="${crypto.hashed.password}"/>
+    </bean>
+</beans>

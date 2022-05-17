@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    <bean id="globalHandlerExceptionResolver" class="core.web.resolver.GlobalHandlerExceptionResolver">
+        <property name="messageConverters" ref="httpMessageConverters"/>
+        <property name="errorTranslators">
+            <list>
+                <ref bean="authenticationExceptionTranslator"/>
+                <ref bean="bizExceptionTranslator"/>
+                <ref bean="runtimeExceptionTranslator"/>
+                <ref bean="ioExceptionTranslator"/>
+                <ref bean="javaExceptionTranslator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="authenticationExceptionTranslator" class="core.web.exception.translator.AuthenticationExceptionTranslator">
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="bizExceptionTranslator" class="core.web.exception.translator.BizExceptionTranslator">
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="runtimeExceptionTranslator" class="core.web.exception.translator.RuntimeExceptionTranslator">
+        <constructor-arg>
+            <list>
+                <ref bean="bizExceptionTranslator"/>
+            </list>
+        </constructor-arg>
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="ioExceptionTranslator" class="core.web.exception.translator.IOExceptionTranslator">
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="javaExceptionTranslator" class="core.web.exception.translator.JavaExceptionTranslator">
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+</beans>

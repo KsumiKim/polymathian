@@ -1,0 +1,24 @@
+<section class="ts-content-modal">
+    <ts-layout column class="ts-content-modal-layout">
+        <div class="ts-content-modal-top-bar flex-grow-0">
+            <ts-layout class="justify-content-between vue-js-modal-draggable">
+                <div class="ts-content-modal-title">
+                    <span class="align-middle">{{ title }}</span>
+                </div>
+                <div class="ts-content-modal-action">
+                    <span class="material-icons align-middle user-select-none" @mousedown.stop @click="close">close</span>
+                </div>
+            </ts-layout>
+        </div>
+        <div class="ts-content-modal-header flex-grow-1">
+            <div class="d-flex column justify-content-center align-items-center w100 h100">
+                <span>{{ text }}</span>
+            </div>
+        </div>
+        <div class="ts-content-modal-header flex-grow-0">
+            <ts-layout ma class="justify-content-center">
+                <ts-btn sm :color="button.color" v-for="( button, i ) in internalButtons" :key="i" @click="button.onClick(); close()">{{ button.name }}</ts-btn>
+            </ts-layout>
+        </div>
+    </ts-layout>
+</section>

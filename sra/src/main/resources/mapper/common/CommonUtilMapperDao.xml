@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.common.service.dao.CommonUtilMapperDao">
+
+    <select id="selectCodeList" resultType="sra.common.model.CodeVo">
+       /* sra.common.service.dao.CommonUtilMapperDao.selectCodeList */
+       SELECT detail_cd     /* 코드 */
+             ,detail_nm     /* 코드명 */
+             ,use_yn        /* 코드명 */
+       FROM  tibero_dev.sy_commcode_dtl
+       WHERE group_cd = #{groupCd}
+       <if test='useYn != null'>
+       AND   use_yn = #{useYn}
+       </if>
+       <if test='option01 != null'>
+       AND   option_01 = #{option01}
+       </if>
+       ORDER BY sort_num
+    </select>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.system.sevice.dao.MenuMapperDao">
+
+    <select id="selectMainMenu" resultType="sra.system.model.MenuOutVo">
+        /* sra.system2.menu.sevice.dao.MenuMapperDao.selectMainMenu*/
+                SELECT   0                   AS MENU_SEQ
+                    ,''                   AS UPPER_MENU_SEQ
+                    ,'범죄피해재산 환부시스템'  AS MENU_NM
+                    ,''                     AS MENU_DESC:
+                    ,0                    AS DEPTH
+                    ,0                    AS SORT_NUM
+                    ,'Y'                  AS USE_YN
+                    ,0                    AS PROGRAM_SEQ
+                    ,''                   AS PROGRAM_NM
+                FROM    DUAL
+                UNION ALL
+                SELECT  MENU_SEQ        /* 메뉴순번 */
+                    ,UPPER_MENU_SEQ  /* 메뉴상의순번 */
+                    ,MENU_NM         /* 메뉴명 */
+                    ,MENU_DESC       /* 메뉴설명 */
+                    ,DEPTH           /* 메뉴단계 */
+                    ,SORT_NUM        /* 메뉴정렬 */
+                    ,USE_YN            /* 사용유무 */
+                    ,PROGRAM_SEQ     /* 프로그램순번 */
+                    ,PROGRAM_NM      /* 프로그램명 */
+                FROM
+                    (
+                        SELECT  MENU_SEQ        /* 메뉴순번 */
+                            ,UPPER_MENU_SEQ  /* 메뉴상의순번 */
+                                ,DECODE(DEPTH,1,'└ '||DEPTH||'. ',2,'└── '||DEPTH||'. ',3,'└───── '||DEPTH||'. ')||MENU_NM AS MENU_NM         /* 메뉴명 */
+                            ,MENU_DESC       /* 메뉴설명 */
+                            ,DEPTH           /* 메뉴단계 */
+                            ,SORT_NUM        /* 메뉴정렬 */
+                            ,USE_YN            /* 사용유무 */
+                            ,PROGRAM_SEQ     /* 프로그램순번 */
+                            ,(SELECT PROGRAM_NM
+                                FROM  TIBERO.SY_PROGRAM_MST
+                                WHERE  PROGRAM_SEQ = MENU.PROGRAM_SEQ) AS PROGRAM_NM /* 프로그램명 */
+                        FROM  TIBERO.SY_MENU_MST MENU
+                        START WITH UPPER_MENU_SEQ IS NULL
+                        CONNECT BY PRIOR MENU_SEQ =  UPPER_MENU_SEQ
+                        ORDER SIBLINGS BY SORT_NUM ASC
+                    )
+    </select>
+
+
+        <select id="selectSubMenu" parameterType="sra.system.model.MenuInVo" resultType="sra.system.model.MenuOutVo">
+                /* sra.system2.menu.sevice.dao.MenuMapperDao.selectSubMenu */
+                    SELECT      MENU_SEQ        /* 메뉴순번 */
+                            ,UPPER_MENU_SEQ  /* 메뉴상의순번 */
+                                ,MENU_NM         /* 메뉴명 */
+                            ,MENU_DESC       /* 메뉴설명 */
+                            ,DEPTH           /* 메뉴단계 */
+                            ,SORT_NUM        /* 메뉴정렬 */
+                            ,USE_YN            /* 사용유무 */
+                            ,PROGRAM_SEQ     /* 프로그램순번 */
+                            ,PROGRAM_NM      /* 프로그램명 */
+                    FROM
+                    (SELECT  MENU_SEQ        /* 메뉴순번 */
+                            ,UPPER_MENU_SEQ  /* 메뉴상의순번 */
+                                ,MENU_NM         /* 메뉴명 */
+                            ,MENU_DESC       /* 메뉴설명 */
+                            ,DEPTH           /* 메뉴단계 */
+                            ,SORT_NUM        /* 메뉴정렬 */
+                            ,USE_YN            /* 사용유무 */
+                            ,PROGRAM_SEQ     /* 프로그램순번 */
+                            ,(SELECT PROGRAM_NM
+                                FROM  TIBERO.SY_PROGRAM_MST
+                                WHERE  PROGRAM_SEQ = MENU.PROGRAM_SEQ) AS PROGRAM_NM /* 프로그램명 */
+                        FROM  TIBERO.SY_MENU_MST MENU
+
+                        <if test='menuSeq == "0"'>
+                            START WITH UPPER_MENU_SEQ IS NULL
+                        </if>
+
+                        <if test='menuSeq != "0"'>
+                            START WITH MENU_SEQ   = TO_NUMBER(#{menuSeq})
+                        </if>
+
+                        CONNECT BY PRIOR MENU_SEQ =  UPPER_MENU_SEQ
+                        ORDER SIBLINGS BY SORT_NUM ASC
+                        )
+
+                    WHERE  DEPTH = TO_NUMBER(#{depth})+1
+    </select>
+
+</mapper>

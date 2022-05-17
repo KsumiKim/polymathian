@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="primaryDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="primaryLazyDataSource"/>
+        <property name="logFormatter" ref="jdbcLogFormatter"/>
+    </bean>
+
+    <bean id="jdbcLogFormatter" class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+        <property name="loggingType" value="MULTI_LINE"/>
+        <property name="sqlPrefix" value="\n"/>
+    </bean>
+
+    <bean id="primaryLazyDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <constructor-arg ref="primaryHikariDataSource"/>
+    </bean>
+
+    <bean id="primaryHikariDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig"/>
+    </bean>
+
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="driverClassName" value="${datasource.primary.driver-class-name}"/>
+        <property name="jdbcUrl" value="${datasource.primary.url}"/>
+        <property name="username" value="${datasource.primary.username}"/>
+        <property name="password" value="${datasource.primary.password}"/>
+        <property name="maximumPoolSize" value="${datasource.primary.maximum-pool-size}"/>
+    </bean>
+
+</beans>

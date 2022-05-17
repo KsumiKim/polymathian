@@ -1,0 +1,16 @@
+<div class="ts-mdi contents">
+    <ts-layout column>
+        <div class="flex-grow-0">
+            <ul class="tab_area">
+                <li :class="{ on: menu.activated }" v-for="( menu, key ) in menuMap" :key="key" @click.prevent="activeMenu( menu )">{{ menu.name }}
+                    <a v-if="menu.name !== 'HOME'" href="#" class="close" title="닫기" @click.stop="detachMenu( menu )">닫기</a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex-grow-1">
+            <div class="tab_contents w100 h100" v-for="( menu, key ) in menuMap" :key="key" v-show="menu.activated">
+                <component :is="menu.componentLoader" :menu="menu" :active="menu.activated"></component>
+            </div>
+        </div>
+    </ts-layout>
+</div>

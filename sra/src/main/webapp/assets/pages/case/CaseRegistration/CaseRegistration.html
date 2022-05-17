@@ -1,0 +1,386 @@
+<ts-content v-bind="$props" :button-color="{ print: 'warning' }">
+    <template #header>
+        <ts-form :size="4">
+            <ts-fieldset label="검찰청a" tooltip-text="검찰청 툴팁">
+                <div class="text-truncate">숨대리님 넓이는 유지하고 글씨가 길어지면 알아서 잘리도록 하고싶은거죠?</div>
+            </ts-fieldset>
+            <ts-fieldset label="사건번호a" tooltip-text="검찰사건번호를 나타냅니다." tooltip-position="left">
+                <ts-layout pa>
+                    <ts-text sm class="col-3" v-model="param.acptYear" @keyup="save" v-tooltip:left="param.acptYear"></ts-text>
+                    <ts-select sm class="col-7" block :items="codes.jgCd" v-model="param.jgCd" v-tooltip="'안에 있는 내용이 얼마나 길면 이게 그렇게 되는가?안에 있는'"></ts-select>
+                    <ts-text sm class="col-2" v-model="param.caseSeqno" @keyup="save" v-tooltip:right="param.caseSeqno"></ts-text>
+                </ts-layout>
+            </ts-fieldset>
+            <ts-fieldset label="조건1a">
+                <ts-select sm block :items="codes.jgCd" v-model="param.jgCd"></ts-select>
+            </ts-fieldset>
+            <ts-fieldset label="조건2a">
+                <ts-select sm block :items="codeList"></ts-select>
+            </ts-fieldset>
+            <ts-radio-group v-model="radioGroup1.value">
+                <ts-radio inline
+                    :label="f.name"
+                    :value="f.value"
+                    v-for="f in fruitList" :key="f.value">
+                </ts-radio>
+            </ts-radio-group>
+            <ts-fieldset label="조건2a">
+                <ts-text sm v-model="message" ></ts-text>
+            </ts-fieldset>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout column>
+            <div class="flex-grow-0">
+                <ts-box static title="첫번째 탭의 박스" tooltip-text="원하는대로 쉽게 되지 않을것을 난 알고있어" tooltip-position="right">
+                    <template #body>
+                        <div class="table_type2">
+                            <table summary="table">
+                                <colgroup>
+                                <col width="15%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="15%">
+                                <col width="10%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="15%">
+                                <col width="15%">
+                                </colgroup>
+                                <tbody class="text-truncate">
+                                    <tr>
+                                        <th class="ico"><span v-tooltip="'검찰청이란...'">검찰청 명</span></th>
+                                        <td>
+                                            <ts-select sm block outlined :items="codes.profCd" v-model="form.profCd"></ts-select>
+                                        </td>
+                                        <td>
+                                            <ts-btn sm block>버튼</ts-btn>
+                                        </td>
+                                        <th>심급코드</th>
+                                        <td colspan="3">
+                                            <ts-select sm block outlined :items="codes.jgCd" v-model="form.jgCd"></ts-select>
+                                        </td>
+                                        <th>사건유형</th>
+                                        <td>
+                                            <ts-select sm block outlined></ts-select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">사건년도</th>
+                                        <td colspan="2">
+                                            <ts-text sm :required="!hasValue" v-model="form.acptYear"></ts-text>
+                                        </td>
+                                        <th>순번</th>
+                                        <td>
+                                            <ts-btn sm block>버튼</ts-btn>
+                                        </td>
+                                        <td colspan="2">
+                                            <ts-select sm block outlined :items="codes.profCd" v-model="form.profCd"></ts-select>
+                                        </td>
+                                        <th>사건번호</th>
+                                        <td>
+                                            <ts-text sm></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">대표 죄명</th>
+                                        <td colspan="2">
+                                            <ts-text sm v-model="form.rpstCrme"></ts-text>
+                                        </td>
+                                        <th>대표 적용법조</th>
+                                        <td colspan="3">
+                                            <ts-text sm v-model="form.rpstAplyLwat"></ts-text>
+                                        </td>
+                                        <th>형명</th>
+                                        <td>
+                                            <ts-text sm ></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">기소일자</th>
+                                        <td colspan="2">
+                                            <ts-datepicker sm format="yyyy-MM-DD" v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>확정일자</th>
+                                        <td colspan="3">
+                                            <ts-datepicker disabled sm v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>판결일자</th>
+                                        <td>
+                                            <ts-datepicker ></ts-datepicker>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </ts-box>
+            </div>
+            <splitpanes horizontal>
+                <pane size="50">
+                    <ts-box title="피고인 현황" :subtitle="grid1Subtitle" tooltip-text="두번째 박스 툴 팁" tooltip-position="bottom">
+                        <template #right>
+                            <ts-layout ma>
+                                <span v-tooltip:left="'남은 보관금의 잔고를 표기'">보관금 잔고</span>
+                                <ts-text sm
+                                    append-icon="search"
+                                    readonly
+                                    append-end>
+                                </ts-text>
+                                <ts-btn sm @click="toggleColumns" :label="btnLabel"></ts-btn>
+                                <ts-btn sm @click="openModal2">모달!</ts-btn>
+                                <ts-btn sm @click="sortList">정렬!</ts-btn>
+                                <ts-btn sm @click="insertGrid1Row">+</ts-btn>
+                                <ts-btn sm @click="deleteGrid1Row">-</ts-btn>
+                                <ts-btn sm @click="excelDownloadGrid1">E</ts-btn>
+                            </ts-layout>
+                        </template>
+                        <template #body>
+                            <ts-grid ref="grid1" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows"></ts-grid>
+                        </template>
+                    </ts-box>
+                </pane>
+                <pane size="50">
+                    <ts-box title="몰수 현황">
+                        <template #right>
+                            <ts-btn sm @click="moveUp">^</ts-btn>
+                            <ts-btn sm @click="moveDown">∨</ts-btn>
+                            <ts-btn sm @click="insertGrid2Row">+</ts-btn>
+                            <ts-btn sm @click="deleteGrid2Row">-</ts-btn>
+                            <ts-btn sm @click="excelDownloadGrid2">E</ts-btn>
+                        </template>
+                        <template #body>
+                            <ts-grid ref="grid3" :columns="grid3.columns" :fields="grid3.columns" :value="grid3.rows"></ts-grid>
+                        </template>
+                    </ts-box>
+                </pane>
+            </splitpanes>
+        </ts-layout>
+    </template>
+</ts-content>
+
+<!--
+<ts-content v-bind="$props" :button-color="{ print: 'warning' }">
+    <template #header>
+        <ts-form :size="4">
+            <ts-fieldset label="검찰청a">
+                <div class="text-truncate">숨대리님 넓이는 유지하고 글씨가 길어지면 알아서 잘리도록 하고싶은거죠?</div>
+            </ts-fieldset>
+            <ts-fieldset label="사건번호a">
+                <ts-layout pa>
+                    <ts-text sm class="col-3" v-model="param.acptYear" @keyup="save"></ts-text>
+                    <ts-select sm class="col-7" block :items="codes.jgCd" v-model="param.jgCd"></ts-select>
+                    <ts-text sm class="col-2" v-model="param.caseSeqno" @keyup="save"></ts-text>
+                </ts-layout>
+            </ts-fieldset>
+            <ts-fieldset label="조건1a">
+                <ts-select sm block :items="codes.jgCd" v-model="param.jgCd"></ts-select>
+            </ts-fieldset>
+            <ts-fieldset label="조건2a">
+                <ts-select sm block :items="codes.authCd" v-model="param.authCd"></ts-select>
+            </ts-fieldset>
+            <ts-radio-group v-model="radioGroup1.value">
+                <ts-radio inline
+                    :label="f.name"
+                    :value="f.value"
+                    v-for="f in fruitList" :key="f.value">
+                </ts-radio>
+            </ts-radio-group>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout column no-height>
+            <div class="flex-grow-0">
+                <ts-box static title="첫번째 탭의 박스">
+                    <template #body>
+                        <div class="table_type2">
+                            <table summary="table">
+                                <colgroup>
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                                </colgroup>
+                                <tbody class="text-truncate">
+                                    <tr>
+                                        <th class="ico">검찰청 명</th>
+                                        <td>
+                                            <ts-select sm block outlined :items="codes.profCd" v-model="form.profCd"></ts-select>
+                                        </td>
+                                        <th>심급코드</th>
+                                        <td>
+                                            <ts-select sm block outlined :items="codes.jgCd" v-model="form.jgCd"></ts-select>
+                                        </td>
+                                        <th>사건유형</th>
+                                        <td>
+                                            <ts-select outlined></ts-select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">사건년도</th>
+                                        <td>
+                                            <ts-text sm :required="!hasValue" v-model="form.acptYear"></ts-text>
+                                        </td>
+                                        <th>순번</th>
+                                        <td>
+                                            <ts-text :required="!hasValue" sm v-model="form.caseSeqno"></ts-text>
+                                        </td>
+                                        <th>사건번호</th>
+                                        <td>
+                                            <ts-text></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <th class="ico">대표 죄명</th>
+                                        <td>
+                                            <ts-text sm v-model="form.rpstCrme"></ts-text>
+                                        </td>
+                                        <th>대표 적용법조</th>
+                                        <td>
+                                            <ts-text sm v-model="form.rpstAplyLwat"></ts-text>
+                                        </td>
+                                        <th>형명</th>
+                                        <td>
+                                            <ts-text sm ></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">기소일자</th>
+                                        <td>
+                                            <ts-datepicker sm format="yyyy-MM-DD" v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>확정일자</th>
+                                        <td>
+                                            <ts-datepicker disabled sm v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>판결일자</th>
+                                        <td>
+                                            <ts-datepicker ></ts-datepicker>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </ts-box>
+            </div>
+            <div class="flex-grow-0" style="height: 500px">
+                <ts-box title="피고인 현황" :subtitle="grid1Subtitle">
+                    <template #right>
+                        <ts-layout ma>
+                            <span>보관금 잔고</span>
+                            <ts-text sm
+                                append-icon="search"
+                                readonly
+                                append-end>
+                            </ts-text>
+                            <ts-btn sm @click="toggleColumns" :label="btnLabel"></ts-btn>
+                            <ts-btn sm @click="openModal2">모달!</ts-btn>
+                            <ts-btn sm @click="sortList">정렬!</ts-btn>
+                            <ts-btn sm @click="insertGrid1Row">+</ts-btn>
+                            <ts-btn sm @click="deleteGrid1Row">-</ts-btn>
+                            <ts-btn sm @click="excelDownloadGrid1">E</ts-btn>
+                        </ts-layout>
+                    </template>
+                    <template #body>
+                        <ts-grid ref="grid1" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows"></ts-grid>
+                    </template>
+                </ts-box>
+            </div>
+            <div class="flex-grow-0">
+                <ts-box static title="첫번째 탭의 박스">
+                    <template #body>
+                        <div class="table_type2">
+                            <table summary="table">
+                                <colgroup>
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                                </colgroup>
+                                <tbody class="text-truncate">
+                                    <tr>
+                                        <th class="ico">검찰청 명</th>
+                                        <td>
+                                            <ts-select sm block outlined :items="codes.profCd" v-model="form.profCd"></ts-select>
+                                        </td>
+                                        <th>심급코드</th>
+                                        <td>
+                                            <ts-select sm block outlined :items="codes.jgCd" v-model="form.jgCd"></ts-select>
+                                        </td>
+                                        <th>사건유형</th>
+                                        <td>
+                                            <ts-select outlined></ts-select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">사건년도</th>
+                                        <td>
+                                            <ts-text sm :required="!hasValue" v-model="form.acptYear"></ts-text>
+                                        </td>
+                                        <th>순번</th>
+                                        <td>
+                                            <ts-text :required="!hasValue" sm v-model="form.caseSeqno"></ts-text>
+                                        </td>
+                                        <th>사건번호</th>
+                                        <td>
+                                            <ts-text></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                         <th class="ico">대표 죄명</th>
+                                        <td>
+                                            <ts-text sm v-model="form.rpstCrme"></ts-text>
+                                        </td>
+                                        <th>대표 적용법조</th>
+                                        <td>
+                                            <ts-text sm v-model="form.rpstAplyLwat"></ts-text>
+                                        </td>
+                                        <th>형명</th>
+                                        <td>
+                                            <ts-text sm ></ts-text>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ico">기소일자</th>
+                                        <td>
+                                            <ts-datepicker sm format="yyyy-MM-DD" v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>확정일자</th>
+                                        <td>
+                                            <ts-datepicker disabled sm v-model="form.pcnYear"></ts-datepicker>
+                                        </td>
+                                        <th>판결일자</th>
+                                        <td>
+                                            <ts-datepicker ></ts-datepicker>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </ts-box>
+            </div>
+            <div class="flex-grow-0" style="height: 500px">
+                <ts-box title="몰수 현황">
+                    <template #right>
+                        <ts-btn sm @click="moveUp">^</ts-btn>
+                        <ts-btn sm @click="moveDown">∨</ts-btn>
+                        <ts-btn sm @click="insertGrid2Row">+</ts-btn>
+                        <ts-btn sm @click="deleteGrid2Row">-</ts-btn>
+                        <ts-btn sm @click="excelDownloadGrid2">E</ts-btn>
+                    </template>
+                    <template #body>
+                       <ts-grid ref="grid2" :columns="grid2.columns" :fields="grid2.columns" :value="grid2.rows"></ts-grid>
+                        <ts-grid ref="grid3" :columns="grid3.columns" :fields="grid3.columns" :value="grid3.rows"></ts-grid>
+                    </template>
+                </ts-box>
+            </div>
+        </ts-layout>
+    </template>
+</ts-content>
+-->

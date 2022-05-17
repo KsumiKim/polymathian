@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sra.chat.service.dao.ChatMapperDao">
+
+    <select id="selectUserList" resultType="sra.chat.model.UserVo">
+        /* sra.chat.service.dao.ChatMapperDao.selectUserList */
+        SELECT user_id
+             , user_name
+             , thumbnail
+        FROM SY_USERINFO_MST
+        <if test=' userId != null and userId != "" '>
+        WHERE user_id != #{userId}
+        </if>
+        ORDER BY user_id
+    </select>
+
+    <insert id="insertChatMessage" parameterType="sra.chat.model.ChatMessage">
+        INSERT INTO CH_MESSAGE_MST
+        ( room_id
+        , writer_id
+        , receiver_id
+        , message
+        , insert_id
+        , insert_dt)
+        VALUES
+        ( #{roomId}
+        , #{writerId}
+        , #{receiverId}
+        , #{message}
+        , #{writerId}
+        , CURRENT_TIMESTAMP() )
+    </insert>
+
+    <select id="selectChatRoom" parameterType="sra.chat.model.ChatMessage" resultType="java.lang.String">
+        /* sra.chat.service.dao.ChatMapperDao.selectChatRoom */
+        SELECT DISTINCT room_id
+        FROM CH_MESSAGE_MST
+        WHERE 1=1
+        AND ( writer_id = #{writerId} OR receiver_id = #{writerId} )
+        AND ( writer_id = #{receiverId} OR receiver_id = #{receiverId} )
+    </select>
+
+    <select id="selectChatHistories" parameterType="sra.chat.model.ChatMessage" resultType="sra.chat.model.ChatMessage">
+        /* sra.chat.service.dao.ChatMapperDao.selectChatRoom */
+        SELECT
+            m.room_id
+            , m.writer_id
+            , ( SELECT USER_NAME FROM SY_USERINFO_MST u WHERE u.USER_ID = m.writer_id) AS writer_nm
+            , m.receiver_id
+            , ( SELECT USER_NAME FROM SY_USERINFO_MST u WHERE u.USER_ID = m.receiver_id) AS receiver_nm
+            , m.message
+            , date_format( m.insert_dt, '%h:%s' ) AS created_at
+        FROM CH_MESSAGE_MST m
+        WHERE m.room_id = #{roomId}
+        ORDER BY m.insert_dt
+    </select>
+
+</mapper>

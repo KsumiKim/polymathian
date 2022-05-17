@@ -1,0 +1,1 @@
+column	boolean	false	하위 요소를 세로로 나열합니다.

@@ -1,0 +1,151 @@
+<ts-content v-bind="$props">
+    <template #body>
+        <doc-section title="Textarea">
+            <template #left>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <ts-textarea sm :readonly="baseText.isReadonly"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea :disabled="baseText.isDisabled"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea lg ref="focusTarget"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea floating label="플롯팅 라벨"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea sm append-icon="star" :readonly="baseText.isReadonly"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea autofocus append-outlined append-icon="star" :disabled="baseText.isDisabled"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea lg append-color="secondary" append-icon="star"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea sm
+                                :readonly="baseText.isReadonly"
+                                prepend-outlined
+                                prepend-icon="star"
+                                @click:prepend="onClickPrependButton">
+                            </ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea sm
+                                :disabled="baseText.isDisabled"
+                                prepend-color="warning"
+                                prepend-icon="star"
+                                @click:prepend="onClickPrependButton"
+                                append-outlined
+                                append-color="danger"
+                                append-icon="star"
+                                @click:append="onClickAppendButton"></ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea sm
+                                label="임의버튼"
+                                :readonly="baseText.isReadonly"
+                                append-icon="star"
+                                append-end
+                                @click:append="onClickAppendButton">
+                                <template #append>
+                                    <ts-btn :readonly="baseText.isReadonly" @click="onClickCustomButton">커스텀 버튼</ts-btn>
+                                </template>
+                            </ts-textarea>
+                        </div>
+                        <div class="p-1">
+                            <ts-textarea sm
+                                label="전화번호"
+                                placeholder="5678"
+                                :disabled="baseText.isDisabled"
+                                prepend-start
+                                prepend-icon="person"
+                                @click:prepend="onClickPrependButton">
+                                <template #prepend>
+                                    <ts-textarea placeholder="010" :disabled="baseText.isDisabled"></ts-textarea>
+                                    <ts-textarea placeholder="1234" :disabled="baseText.isDisabled"></ts-textarea>
+                                </template>
+                            </ts-textarea>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout>
+                        <div class="p-1">
+                            <ts-btn color="success" @click="baseText.isReadonly = !baseText.isReadonly">toggle readonly</ts-btn>
+                        </div>
+                        <div class="p-1">
+                            <ts-btn color="info" @click="baseText.isDisabled = !baseText.isDisabled">enable/disable</ts-btn>
+                        </div>
+                        <div class="p-1">
+                            <ts-btn color="warning" @click="$refs.focusTarget.focus()">focus</ts-btn>
+                        </div>
+                    </ts-layout>
+                </div>
+                <hr>
+                <div class="row">
+                    <ts-layout column>
+                        <div class="p-1">
+                            <p>값 변경</p>
+                            <pre>value: {{ baseText.value }}</pre>
+                            <ts-textarea placeholder="글자 입력"
+                                append-text="초기화"
+                                @click:append="baseText.value = ''"
+                                v-model="baseText.value">
+                            </ts-textarea>
+                        </div>
+                    </ts-layout>
+                </div>
+            </template>
+            <template #right>
+                <h2>&lt;ts-textarea&gt;</h2>
+                <doc-sentence title="Props">
+                    <doc-phrase :tag="p.tag" :type="p.type" :default="p.default" v-for="( p, i ) in props" :key="i">{{ p.description }}</doc-phrase>
+                </doc-sentence>
+                <doc-sentence nested title="Events">
+                    <doc-sentence nested md title="blur(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스를 벗어나면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="focus(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="FocusEvent">포커스되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="change(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">입력 값이 변경되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="input(value)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="value" type="string | number">model 값이 갱신되면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="click:prepend(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="MouseEvent">입력 앞의 버튼을 클릭하면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                    <doc-sentence nested md title="click:append(event)">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase tag="event" type="MouseEvent">입력 뒤의 버튼을 클릭하면 발생합니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+                <doc-sentence nested title="Methods">
+                    <doc-sentence nested md title="focus()">
+                        <doc-sentence sm title="parameters">
+                            <doc-phrase type="N/A">포커스를 강제로 발생시킵니다.</doc-phrase>
+                        </doc-sentence>
+                    </doc-sentence>
+                </doc-sentence>
+            </template>
+        </doc-section>
+    </template>
+</ts-content>

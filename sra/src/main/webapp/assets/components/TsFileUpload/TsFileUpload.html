@@ -1,0 +1,8 @@
+<div>
+    <ts-file-list :files="files" @click:delete="deleteFile" v-if="files.length > 0" @select-files="onSelectFiles">
+        <template #buttons>
+            <ts-btn icon="file_upload" @click="openFileBrowser"></ts-btn>
+            <input ref="file" type="file" :multiple="multiple" :accept="accept" @change="onFileChange" style="display: none">
+        </template>
+    </ts-file-list>
+</div>

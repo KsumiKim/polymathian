@@ -1,0 +1,145 @@
+[
+    {
+        "id": "UserManagement",
+        "name": "사용자 관리",
+        "path": "/user/UserManagement",
+        "auth": {
+            "init": true,
+            "search": true,
+            "save": true,
+            "delete": true
+        }
+    },
+    {
+        "id": "LayoutComponent",
+        "name": "Layout",
+        "path": "/sample/LayoutComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "BoxComponent",
+        "name": "Box",
+        "path": "/sample/BoxComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "ButtonComponent",
+        "name": "Button",
+        "path": "/sample/ButtonComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "TextComponent",
+        "name": "Text",
+        "path": "/sample/TextComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "TextareaComponent",
+        "name": "Textarea",
+        "path": "/sample/TextareaComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "SelectComponent",
+        "name": "Select",
+        "path": "/sample/SelectComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "CheckboxComponent",
+        "name": "Checkbox",
+        "path": "/sample/CheckboxComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "RadioComponent",
+        "name": "Radio",
+        "path": "/sample/RadioComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "DatepickerComponent",
+        "name": "Datepicker",
+        "path": "/sample/DatepickerComponent",
+        "auth": {
+            "init": true,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "GridComponent",
+        "name": "Grid",
+        "path": "/sample/GridComponent",
+        "auth": {
+            "init": false,
+            "search": false,
+            "save": false,
+            "delete": false
+        }
+    },
+    {
+        "id": "MenuManagement",
+        "name": "메뉴관리",
+        "path": "/test/MenuManagement",
+        "auth": {
+            "init": true,
+            "search": true,
+            "save": true,
+            "delete": true
+        }
+    },
+    {
+        "id": "ProgramManagement",
+        "name": "프로그램관리",
+        "path": "/system/ProgramManagement",
+        "auth": {
+            "init": true,
+            "search": true,
+            "save": true,
+            "delete": true
+        }
+    }
+]

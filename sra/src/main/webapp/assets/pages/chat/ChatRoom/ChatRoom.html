@@ -1,0 +1,96 @@
+<ts-content v-bind="$props">
+    <template #header>
+    </template>
+    <template #body>
+        <ts-layout column>
+            <splitpanes>
+                <pane size="30">
+                    <ts-box title="Users">
+                        <template #right>
+                        </template>
+                        <template #body>
+                            <ul class="border-right">
+                                <li class="list-group-item list-group-item-action border-0" v-for="( user, i ) in userList" :key="i" @click="startChat(user)">
+                                    <div class="d-flex align-items-start">
+                                        <img :src="user.thumbnail ? 'data:image/png;base64,' + user.thumbnail : '/assets/img/defaultThumbnail.png' "  class="rounded-circle mr-1" alt="thumbnail" width="40" height="40">
+                                        <div class="flex-grow-1 ml-3">
+                                            {{ user.userName }}
+                                            <span v-if="user.unreadMsgCount > 0">
+                                                <ts-badge>{{ user.unreadMsgCount }}</ts-badge>
+                                            </span>
+                                            <div class="small">
+                                                <ts-badge circle absolute
+                                                    :color=" user.status === 'CONNECT' ? 'success' : user.status === 'DISCONNECT' ? 'danger' : 'warning' ">
+                                                </ts-badge>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </template>
+                    </ts-box>
+                </pane>
+                <pane size="70">
+                    <ts-box v-show="chatStarted" title="Chat History" class="position-relative">
+                        <template #right>
+                        </template>
+                        <template #body>
+                            <ts-layout column noHeight>
+                                <div class="chat-messages p-4" style="height: 450px" ref="chatContent">
+                                    <ul ref="chatList">
+                                        <li :class="chat.isFile ? chat.header['x-content-writer'] === userId ? 'chat-message-right pb-4' : 'chat-message-left pb-4' : chat.writerId === userId ? 'chat-message-right pb-4' : 'chat-message-left pb-4'" v-for="( chat, i ) in histories" :key="i">
+                                            <div>
+                                                <img :src="chat.isFile ? getUserThumbnail( chat.header['x-content-writer'] ) : getUserThumbnail( chat.writerId )" width="40" height="40">
+                                                <div class="text-muted small text-nowrap mt-2">
+                                                    <div v-if="!chat.isFile">
+                                                        {{ chat.createdAt }}
+                                                    </div>
+                                                    <div v-if="chat.isFile">
+                                                        {{ chat.header['x-content-createdAt'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                <div v-if="!chat.isFile">
+                                                    <div class="font-weight-bold mb-1">
+                                                        <span v-if="chat.writerId === userId">You </span>
+                                                        <span v-if="chat.writerId !== userId">{{ chat.writerNm }}: </span>
+                                                    </div>
+                                                    <div>
+                                                        {{ chat.message }}
+                                                    </div>
+                                                </div>
+                                                <div v-if="chat.isFile">
+                                                    <div class="font-weight-bold mb-1">
+                                                        <span v-if="chat.header['x-content-writer'] === userId">나 </span>
+                                                        <span v-if="chat.header['x-content-writer'] !== userId"> {{ chat.header['x-content-writer'] }} </span>
+                                                    </div>
+                                                    <div class="list-group">
+                                                        <div class="list-group-item list-group-item-action" @click="chat.download(chat.header['x-content-name'], chat.fileContent)">
+                                                            {{ chat.header['x-content-name'] }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="py-3 px-4 border-top" style="height: 100px">
+                                    <ts-text placeholder="Please Enter the Message"
+                                        prepend-icon="file_upload"
+                                        @click:prepend="openFileBrowser"
+                                        append-text="Send"
+                                        @click:append="send"
+                                        @keyup.enter="send"
+                                        v-model="inputMsg">
+                                    </ts-text>
+                                    <input ref="fileInput" style="display: none;" type="file" @change="onFileChange">
+                                </div>
+                            </ts-layout>
+                        </template>
+                    </ts-box>
+                </pane>
+            </splitpanes>
+        </ts-layout>
+    </template>
+</ts-content>

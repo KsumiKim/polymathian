@@ -1,0 +1,32 @@
+<ts-content v-bind="$props" :button-color="{ print: 'warning' }">
+    <template #header>
+        <ts-form :size="3">
+            <ts-fieldset label="Program">
+                <ts-text sm v-model="param.name" @keyup.enter="search"></ts-text>
+            </ts-fieldset>
+        </ts-form>
+    </template>
+    <template #body>
+        <ts-layout>
+            <div class="flex-grow-1">
+                <ts-box title="Program List" :subtitle="gridSubtitle">
+                    <template #right>
+                        <ts-btn sm @click="insertGridRow">+</ts-btn>
+                        <ts-btn sm @click="deleteGridRow">-</ts-btn>
+                        <ts-btn sm @click="excelDownloadGrid">E</ts-btn>
+                    </template>
+                    <template #body>
+                        <ts-layout column>
+                            <div class="flex-grow-1">
+                                <ts-grid ref="grid1" :header-height="70" :columns="grid1.columns" :fields="grid1.columns" :value="grid1.rows" @keydown.native.delete="onGridDataDelete"></ts-grid>
+                            </div>
+                            <div class="flex-grow-0">
+                                <ts-pagination :pageInfo="pageInfo" v-model="page" @change="search"></ts-pagination>
+                            </div>
+                        </ts-layout>
+                    </template>
+                </ts-box>
+            </div>
+        </ts-layout>
+    </template>
+</ts-content>

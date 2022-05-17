@@ -1,0 +1,38 @@
+<ts-content-modal v-bind="$props" title="가입하기">
+    <template #body>
+        <div class="login_wrap">
+			<div class="login_left_wrap">
+				<div class="contents">
+				</div>
+			</div>
+			<div class="login_right_wrap">
+				<div class="login_area">
+					<div class="login_input">
+						<h2>가입하기</h2>
+						<div class="login_input_area">
+							<div class="form-group">
+								<!-- <div class="thumbnail circle" style="background-image:url('image/mountain.jpg')"></div> -->
+								<img @click="openFileBrowser" ref="thumbnail" class="thumbnail circle" src="/assets/img/defaultThumbnail.png" alt="thumbnail">
+								<input style="display: none;" ref="fileInput" type="file" id="profileImg" name="profileImg" accept="image/*" @change="onFileChanged">
+							</div>
+							<div class="form-group">
+								<input type="text" class="id_ico" name="userName" placeholder="아이디" v-model="user.userId">
+							</div>
+							<div class="form-group">
+								<input type="text" class="id_ico" name="userName" placeholder="닉네임" v-model="user.userName">
+							</div>
+							<div class="form-group">
+								<input type="password" class="pw_ico" name="userPasswd" placeholder="비밀번호" v-model="user.password">
+							</div>
+							<div class="form-group">
+								<input type="password" class="pw_ico" name="userPasswd" placeholder="비밀번호 확인" v-model="user.passwordConfirm">
+							</div>
+						</div>
+						<a href="#" class="bt-login" title="" @click.prevent="register">REGISTER</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+    </template>
+</ts-content-modal>
