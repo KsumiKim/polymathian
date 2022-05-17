@@ -14,13 +14,13 @@ This is my website where I put together everything that I have learned from my p
 + Sending emails
 
 ## Technologies used
-+ 1. Real-time chatting service
++ Real-time chatting service
   + WebSocket
   + RabbitMQ
   + STOMP
-+ 2. Blog 
++ Blog 
   + RealGridJS
-+ 3. Common
++ Common
   + VueJS/HTML/CSS
   + RequireJS
   + Spring Framework
