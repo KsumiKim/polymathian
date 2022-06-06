@@ -11,7 +11,6 @@ This is my website where I put together everything that I have learned from my p
 ## Features
 + Real-time chatting service
 + Blog
-+ Sending emails
 
 ## Technologies used
 + Real-time chatting service
