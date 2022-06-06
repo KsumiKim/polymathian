@@ -1,5 +1,5 @@
 # polymathian
-This is my website where I put together everything that I have learned from my past projects. Polymath refers to a person with wide-ranging knowledge or learning. I added -ian suffix to this word to express my admiration to become one someday. One area to become an expert in is programming. Come visit my website at www.polymathian.me!
+This is my website where I put together everything that I have learned from my past projects. Polymath refers to a person with wide-ranging knowledge or learning. I added -ian suffix to this word to express my admiration to become one someday. One area to become an expert in is programming. Come visit my website at <http://chat.polymathian.me/>
 
 ## Setup
 + clone this repository 
